@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+export PATH=/opt/project/bin:$PATH
+exec bash /opt/project/bin/mysql_run_dir

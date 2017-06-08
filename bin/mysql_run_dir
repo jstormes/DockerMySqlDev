@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+#
+# Script to populate a MySql Docker container from a discreet set of
+# directories containing *.sql files.  All files are run in 'sort -V'
+# order.
+#
+# Author James Stormes
+#
+
+export MYSQL_HOST=127.0.0.1
+export MYSQL_PWD=${MYSQL_ROOT_PASSWORD}
+
+wait_for_mysql () {
+    echo "Waiting for MySql to start"
+    while !(mysqladmin ping  --silent)
+    do
+        sleep 1
+    done
+    echo "MySql Server is up."
+    echo "Waiting for MySql to settle."
+    sleep 6
+}
+
+create_database () {
+    echo
+    echo "Verifying database '$1' exists."
+    echo "CREATE DATABASE IF NOT EXISTS $1;" | mysql -w
+}
+
+run_sql_files () {
+    echo
+    if [ -d "$1" ]; then
+        cwd=$(pwd)
+        cd $1
+        for f in `ls *.sql | sort -V`;
+            do
+                echo "Processing file '$f'"
+                mysql -w ${MYSQL_DATABASE_NAME} < ${f}
+            done
+        cd ${cwd}
+    fi
+}
+
+#############################################################################
+##################################### Main ##################################
+#############################################################################
+
+wait_for_mysql
+create_database $MYSQL_DATABASE_NAME
+run_sql_files "sql/pre"
+run_sql_files "sql/base"
+run_sql_files "sql/seed"
+run_sql_files "sql/post"
+
+echo
+echo
+echo "**********************************************************************"
+echo "*                                                                     "
+echo "* To access mysql from the command line just type 'mysql'.            "
+echo "*                                                                     "
+echo "* To connect from the host system use IP address 127.0.0.1 port ${EXTERNAL_MYSQL_PORT}  "
+echo "* user id 'root' password is '${MYSQL_PWD}'.                          "
+echo "*                                                                     "
+echo "* To connect from another Docker container use the DNS name $(hostname) "
+echo "* port 3306.                                                          "
+echo "*                                                                     "
+echo "* ALL DATABASE CHANGES WILL BE LOST WHEN YOU EXIT THIS CONTAINER!!!   "
+echo "*                                                                     "
+echo "* Type 'exit' to exit this container.                                 "
+echo "*                                                                     "
+echo "**********************************************************************"
+echo
+echo
+
+exec bash
