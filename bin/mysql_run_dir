@@ -13,7 +13,7 @@ export MYSQL_PWD=${MYSQL_ROOT_PASSWORD}
 
 
 wait_for_mysql () {
-   until mysqladmin ping >/dev/null 2>&1; do
+   until mysqladmin --no-defaults ping >/dev/null 2>&1; do
        echo -n "."; sleep 0.2
    done
    until echo "show databases;" | mysql >/dev/null 2>&1; do
@@ -56,7 +56,8 @@ run_sql_files "sql/post"
 
 # Set default database
 echo "[client]" > ~/.my.cnf
-echo "database=$MYSQL_DATABASE_NAME" >> ~/.my.cnf
+echo "database=\"$MYSQL_DATABASE_NAME\"" >> ~/.my.cnf
+echo "" >> ~/.my.cnf
 
 echo
 echo
