@@ -1,5 +1,5 @@
 # DockerMySqlDev
-Scrips for quickly setting up a temporary MySQL databases for development.
+Scripts for quickly setting up a temporary MySQL databases for development.
 
 ## Quick start Windows
 
