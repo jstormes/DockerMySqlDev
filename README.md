@@ -49,7 +49,7 @@ the appropriate directories.  This will just publish database changes to
 production.
 
 Put data for bug regression testing in the `sql/seed` directory to speed regression
-testing by developers.  Skip the `sql\seed` directory for production deployments. 
+testing by developers.  Skip the `sql/seed` directory for production deployments. 
 
 ## Blogpost
 
