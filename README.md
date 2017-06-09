@@ -36,7 +36,7 @@ code changes in the source control system.
 
 ## Advanced Options
 
-The `*.sql` scripts are run in 'sort -V' order in each of the following 
+The `*.sql` scripts are run in `sort -V` order in each of the following 
 directories:
 
 * `sql/pre`
@@ -56,4 +56,5 @@ testing by developers.  Skip the `sql/seed` directory for production deployments
 [MySQL in Docker for FasterDevelopment and Testing](https://www.stormes.net/using-docker-mysql-faster-development/)
 
 ## Screencast 
+
 (TBD)
