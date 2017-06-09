@@ -11,23 +11,23 @@ export MYSQL_HOST=127.0.0.1
 export MYSQL_PWD=${MYSQL_ROOT_PASSWORD}
 
 wait_for_mysql () {
-    echo "Waiting for MySql to start"
-    while !(mysqladmin ping  --silent)
-    do
-        sleep 1
-    done
-    echo "MySql Server is up."
-    echo "Waiting for MySql to settle."
-    sleep 6
+   until mysqladmin ping >/dev/null 2>&1; do
+       echo -n "."; sleep 0.2
+   done
+   until echo "show databases;" | mysql >/dev/null 2>&1; do
+       echo -n "."; sleep 0.2
+   done
 }
 
 create_database () {
+    wait_for_mysql
     echo
     echo "Verifying database '$1' exists."
-    echo "CREATE DATABASE IF NOT EXISTS $1;" | mysql -w
+    echo "CREATE DATABASE IF NOT EXISTS $1;" | mysql
 }
 
 run_sql_files () {
+    wait_for_mysql
     echo
     if [ -d "$1" ]; then
         cwd=$(pwd)
@@ -35,7 +35,7 @@ run_sql_files () {
         for f in `ls *.sql | sort -V`;
             do
                 echo "Processing file '$f'"
-                mysql -w ${MYSQL_DATABASE_NAME} < ${f}
+                mysql ${MYSQL_DATABASE_NAME} < ${f}
             done
         cd ${cwd}
     fi
@@ -56,7 +56,7 @@ echo
 echo
 echo "**********************************************************************"
 echo "*                                                                     "
-echo "* To access mysql from the command line just type 'mysql'.            "
+echo "* To access mysql from the command line type 'mysql'.                 "
 echo "*                                                                     "
 echo "* To connect from the host system use IP address 127.0.0.1 port ${EXTERNAL_MYSQL_PORT}  "
 echo "* user id 'root' password is '${MYSQL_PWD}'.                          "
