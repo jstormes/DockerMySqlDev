@@ -9,7 +9,7 @@ Container_Name="mysql-dev"
 MYSQL_ROOT_PASSWORD="mypassword"
 MYSQL_DATABASE_NAME="employees"
 EXTERNAL_MYSQL_PORT="4000"
-DOCKER_HUB_IMAGE="mysql:5.5"  # Other Options include "mariadb", "mysql"
+DOCKER_HUB_IMAGE="mysql"  # Other Options include "mariadb", "mysql:5.5"
 
 docker -v >/dev/null 2>&1 ||
 {
