@@ -51,6 +51,10 @@ production.
 Put data for bug regression testing in the `sql/seed` directory to speed regression
 testing by developers.  Skip the `sql/seed` directory for production deployments. 
 
+To run multiple MySQL containers at the same time on the same machine, you have to
+change the `CONTAINER_NAME` and `EXTERNAL_MYSQL_PORT` in the `start-mysql-dev.ps1` and
+`start-mysql-dev.sh` files.
+
 ## Blogpost
 
 [MySQL in Docker for FasterDevelopment and Testing](https://www.stormes.net/using-docker-mysql-faster-development/)
