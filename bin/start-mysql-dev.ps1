@@ -8,8 +8,8 @@
 $CONTAINER_NAME = "mysql-dev"
 $MYSQL_ROOT_PASSWORD = "mypassword"
 $MYSQL_DATABASE_NAME = "employees"
-$EXTERNAL_MYSQL_PORT = "4000"
-$DOCKER_HUB_IMAGE = "mysql"  # Other Options include "mariadb", "mysql:5.5"
+$EXTERNAL_MYSQL_PORT = "4001"
+$DOCKER_HUB_IMAGE = "mariadb"  # Other Options include "mariadb", "mysql:5.5"
 
 if (-Not (Get-Command "docker" -errorAction SilentlyContinue))
 {
